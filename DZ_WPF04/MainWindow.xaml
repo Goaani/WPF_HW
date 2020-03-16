@@ -1,0 +1,43 @@
+﻿<Window x:Class="DZ_WPF04.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DZ_WPF04"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="250" Width="400"
+        >
+    <Window.Resources>
+        <local:SaveToXmlCommand x:Key="SaveToXmlCommand"/>
+    </Window.Resources>
+    <DockPanel>
+        <DataGrid DockPanel.Dock="Top" AutoGenerateColumns="False" CanUserDeleteRows="False"
+                  CanUserAddRows="False" AlternatingRowBackground="AntiqueWhite"
+                  GridLinesVisibility="Vertical" ItemsSource="{Binding Books}"
+                  Name="DtGrid">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Author" Binding="{Binding Author}"/>
+                <DataGridTextColumn Header="Pages" Binding="{Binding Pages}"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="180" />
+
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Background="Bisque" ToolTip="Remove Book"
+                                    BorderThickness="0" 
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=RemoveFromCollection}"
+                                    CommandParameter="{Binding ElementName=DtGrid, Path=SelectedItem}">
+                                <Image Source="C:\Users\Svetlana\source\repos\DZ_WPF04\DZ_WPF04\Resourses\cross.png"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                Content="Save to XML" Command="{StaticResource SaveToXmlCommand}"
+                CommandParameter="{Binding ElementName=DtGrid, Path=Items}"
+                Margin="10"></Button>
+    </DockPanel>
+</Window>
